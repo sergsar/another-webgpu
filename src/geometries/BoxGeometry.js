@@ -1,13 +1,12 @@
 import {CUBE_DATA} from '../consts/cube-data.js';
-import {Geometry} from './Geometry.js';
+import {Geometry} from '../core/Geometry.js';
 
 /**
  * @extends Geometry
  */
 class BoxGeometry extends Geometry {
 	constructor() {
-		super();
-		this.geometryData = CUBE_DATA;
+		super(CUBE_DATA);
 	}
 }
 

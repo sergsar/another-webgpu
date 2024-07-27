@@ -1,42 +1,77 @@
-// prettier-ignore
-
-const vertexData = new Float32Array([
-	//  position   |  normals
-	//-------------+----------------------
-	// front face      positive z
-	-1,  1,  1,         0,  0,  1,
-	-1, -1,  1,         0,  0,  1,
-	1,  1,  1,         0,  0,  1,
-	1, -1,  1,         0,  0,  1,
-	// right face      positive x
-	1,  1, -1,         1,  0,  0,
-	1,  1,  1,         1,  0,  0,
-	1, -1, -1,         1,  0,  0,
-	1, -1,  1,         1,  0,  0,
-	// back face       negative z
-	1,  1, -1,         0,  0, -1,
-	1, -1, -1,         0,  0, -1,
-	-1,  1, -1,         0,  0, -1,
-	-1, -1, -1,         0,  0, -1,
-	// left face        negative x
-	-1,  1,  1,        -1,  0,  0,
-	-1,  1, -1,        -1,  0,  0,
-	-1, -1,  1,        -1,  0,  0,
-	-1, -1, -1,        -1,  0,  0,
-	// bottom face      negative y
-	1, -1,  1,         0, -1,  0,
-	-1, -1,  1,         0, -1,  0,
-	1, -1, -1,         0, -1,  0,
-	-1, -1, -1,         0, -1,  0,
-	// top face         positive y
-	-1,  1,  1,         0,  1,  0,
-	1,  1,  1,         0,  1,  0,
-	-1,  1, -1,         0,  1,  0,
-	1,  1, -1,         0,  1,  0,
-]);
+import {composeVertexData} from '../utils/composeVertexData.js';
 
 // prettier-ignore
-const indexData = new Uint16Array([
+const positions = [
+	// front face
+	-1,  1,  1,
+	-1, -1,  1,
+	1,  1,  1,
+	1, -1,  1,
+	// right face
+	1,  1, -1,
+	1,  1,  1,
+	1, -1, -1,
+	1, -1,  1,
+	// back face
+	1,  1, -1,
+	1, -1, -1,
+	-1,  1, -1,
+	-1, -1, -1,
+	// left face
+	-1,  1,  1,
+	-1,  1, -1,
+	-1, -1,  1,
+	-1, -1, -1,
+	// bottom face
+	1, -1,  1,
+	-1, -1,  1,
+	1, -1, -1,
+	-1, -1, -1,
+	// top face
+	-1,  1,  1,
+	1,  1,  1,
+	-1,  1, -1,
+	1,  1, -1,
+]
+
+// prettier-ignore
+const normals = [
+	// front face
+	0,  0,  1,
+	0,  0,  1,
+	0,  0,  1,
+	0,  0,  1,
+	// right face
+	1,  0,  0,
+	1,  0,  0,
+	1,  0,  0,
+	1,  0,  0,
+	// back face
+	0,  0, -1,
+	0,  0, -1,
+	0,  0, -1,
+	0,  0, -1,
+	// left face
+	-1,  0,  0,
+	-1,  0,  0,
+	-1,  0,  0,
+	-1,  0,  0,
+	// bottom face
+	0, -1,  0,
+	0, -1,  0,
+	0, -1,  0,
+	0, -1,  0,
+	// top face
+	0,  1,  0,
+	0,  1,  0,
+	0,  1,  0,
+	0,  1,  0,
+];
+
+const vertex = new Float32Array(composeVertexData({positions, normals}));
+
+// prettier-ignore
+const index = new Uint16Array([
 	0,  1,  2,  2,  1,  3,  // front
 	4,  5,  6,  6,  5,  7,  // right
 	8,  9, 10, 10,  9, 11,  // back
@@ -49,9 +84,8 @@ const indexData = new Uint16Array([
  * @type {GeometryData}
  */
 const CUBE_DATA = {
-	vertexData,
-	indexData,
-	numVertices: indexData.length,
+	vertex,
+	index,
 };
 
 export {CUBE_DATA};

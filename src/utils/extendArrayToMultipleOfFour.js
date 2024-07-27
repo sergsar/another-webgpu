@@ -1,6 +1,6 @@
-const extendArrayToMultipleOfFour = (array = [0]) => [
-	...array,
-	...new Array(Math.ceil(array.length / 4) * 4 - array.length).fill(0),
-];
+import {extendArray} from './extendArray.js';
+
+const extendArrayToMultipleOfFour = (array = [0]) =>
+	extendArray(array, Math.ceil(array.length / 4) * 4);
 
 export {extendArrayToMultipleOfFour};

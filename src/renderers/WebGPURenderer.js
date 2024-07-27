@@ -244,9 +244,12 @@ class WebGPURenderer {
 					const geometryId = mesh.geometry.id;
 					if (!vertexBuffers[geometryId]) {
 						const geometry = mesh.geometry;
-						vertexBuffers[geometryId] = new IndexedVertexBuffer({device, geometry});
+						vertexBuffers[geometryId] = new IndexedVertexBuffer({
+							device,
+							geometry,
+						});
 					}
-					const {numVertices} = mesh.geometry.geometryData;
+					const numVertices = mesh.geometry.index.length;
 					const vertexBuffer = vertexBuffers[geometryId].vertexBuffer;
 					const indexBuffer = vertexBuffers[geometryId].indexBuffer;
 

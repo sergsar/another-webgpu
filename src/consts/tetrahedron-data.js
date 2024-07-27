@@ -12,7 +12,7 @@ const thirdFace = [[0, 1, 0], [1, -1, 1], [0, -1, -1]];
 const thirdNormal = vector3.computeNormal(...thirdFace);
 
 // prettier-ignore
-const vertexData = extendArrayToMultipleOfFour([
+const vertex = extendArrayToMultipleOfFour([
 		...firstFace[0],						...firstNormal,
 		...firstFace[1],						...firstNormal,
 		...firstFace[2],						...firstNormal,
@@ -25,7 +25,7 @@ const vertexData = extendArrayToMultipleOfFour([
 ])
 
 // prettier-ignore
-const indexData = extendArrayToMultipleOfFour([
+const index = extendArrayToMultipleOfFour([
 	0, 1, 2, 3, 4, 5, 6, 7, 8
 ])
 
@@ -33,9 +33,8 @@ const indexData = extendArrayToMultipleOfFour([
  * @type {GeometryData}
  */
 const TETRAHEDRON_DATA = {
-	vertexData: new Float32Array(vertexData),
-	indexData: new Uint16Array(indexData),
-	numVertices: indexData.length,
+	vertex: new Float32Array(vertex),
+	index: new Uint16Array(index),
 };
 
 export {TETRAHEDRON_DATA};

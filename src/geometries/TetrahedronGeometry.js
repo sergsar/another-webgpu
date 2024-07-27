@@ -1,4 +1,4 @@
-import {Geometry} from './Geometry.js';
+import {Geometry} from '../core/Geometry.js';
 import {TETRAHEDRON_DATA} from '../consts/tetrahedron-data.js';
 
 /**
@@ -6,8 +6,7 @@ import {TETRAHEDRON_DATA} from '../consts/tetrahedron-data.js';
  */
 class TetrahedronGeometry extends Geometry {
 	constructor() {
-		super();
-		this.geometryData = TETRAHEDRON_DATA;
+		super(TETRAHEDRON_DATA);
 	}
 }
 
