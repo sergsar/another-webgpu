@@ -1,6 +1,5 @@
-import {matrix4} from '../math/Matrix4.js';
-import {degToRad} from '../utils/degToRad.js';
-import {matrix3} from '../math/Matrix3.js';
+import {Matrix4Utils} from '../math/Matrix4Utils.js';
+import {Matrix3Utils} from '../math/Matrix3Utils.js';
 
 class ModelBinding {
 	/**
@@ -35,28 +34,17 @@ class ModelBinding {
 			entries: [{binding: 0, resource: {buffer: buffer}}],
 		});
 
-		const world = matrix4.identity();
+		let world = Matrix4Utils.identity();
 
 		this.getBindGroup = () => bindGroup;
 
 		/**
-		 * @param {Vector3} [params.position]
-		 * @param {number} [params.rotation]
-		 * @param {Vector3} [params.scale]
+		 * @param {Float32Array} worldMatrixData
 		 */
-		this.updateWorld = ({position, rotation, scale}) => {
-			matrix4.identity(world);
-			if (position) {
-				matrix4.translate(world, [position.x, position.y, position.z], world);
-			}
-			if (rotation) {
-				matrix4.rotateY(world, degToRad(rotation), world);
-			}
-			if (scale) {
-				matrix4.scale(world, [scale.x, scale.y, scale.z], world);
-			}
-			matrix3.fromMat4(
-				matrix4.transpose(matrix4.inverse(world)),
+		this.updateWorld = worldMatrixData => {
+			world = worldMatrixData;
+			Matrix3Utils.fromMat4(
+				Matrix4Utils.transpose(Matrix4Utils.inverse(world)),
 				normalMatrixData,
 			);
 		};
@@ -65,7 +53,7 @@ class ModelBinding {
 		 * @param {Float32Array} viewProjectionMatrixData
 		 **/
 		this.updateViewProjection = viewProjectionMatrixData => {
-			matrix4.multiply(
+			Matrix4Utils.multiply(
 				viewProjectionMatrixData,
 				world,
 				worldViewProjectionMatrixData,

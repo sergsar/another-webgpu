@@ -1,4 +1,4 @@
-import {matrix4} from '../math/Matrix4.js';
+import {Matrix4Utils} from '../math/Matrix4Utils.js';
 import {degToRad} from '../utils/degToRad.js';
 import {basicShader} from './shaders/ShaderLib/basic.wgsl.js';
 import {ModelBinding} from '../core/ModelBinding.js';
@@ -187,7 +187,7 @@ class WebGPURenderer {
 				passEncoder.setPipeline(pipeline);
 
 				const aspect = canvas.clientWidth / canvas.clientHeight;
-				const projection = matrix4.perspective(
+				const projection = Matrix4Utils.perspective(
 					degToRad(camera.fieldOfView),
 					aspect,
 					camera.zNear,
@@ -198,10 +198,10 @@ class WebGPURenderer {
 				const up = [0, 1, 0];
 
 				// Compute a view matrix
-				const viewMatrixData = matrix4.lookAt(eye, target, up);
+				const viewMatrixData = Matrix4Utils.lookAt(eye, target, up);
 
 				// Combine the view and projection matrixes
-				const viewProjectionMatrixData = matrix4.multiply(
+				const viewProjectionMatrixData = Matrix4Utils.multiply(
 					projection,
 					viewMatrixData,
 				);
@@ -257,11 +257,8 @@ class WebGPURenderer {
 
 					if (mesh.needsUpdate) {
 						mesh.needsUpdate = false;
-						modelBinding.updateWorld({
-							position: mesh.position,
-							rotation: mesh.rotation,
-							scale: mesh.scale,
-						});
+						mesh.updateMatrix();
+						modelBinding.updateWorld(mesh.matrix);
 					}
 
 					modelBinding.updateViewProjection(viewProjectionMatrixData);

@@ -1,15 +1,15 @@
 import {extendArrayToMultipleOfFour} from '../utils/extendArrayToMultipleOfFour.js';
-import {vector3} from '../math/Vector3.js';
+import {Vector3Utils} from '../math/Vector3Utils.js';
 
 // prettier-ignore
 const firstFace = [[0, 1, 0], [-1, -1, 1], [1, -1, 1]]
-const firstNormal = vector3.computeNormal(...firstFace);
+const firstNormal = Vector3Utils.computeNormal(...firstFace);
 // prettier-ignore
 const secondFace = [[0, 1, 0], [0, -1, -1], [-1, -1, 1]];
-const secondNormal = vector3.computeNormal(...secondFace);
+const secondNormal = Vector3Utils.computeNormal(...secondFace);
 // prettier-ignore
 const thirdFace = [[0, 1, 0], [1, -1, 1], [0, -1, -1]];
-const thirdNormal = vector3.computeNormal(...thirdFace);
+const thirdNormal = Vector3Utils.computeNormal(...thirdFace);
 
 // prettier-ignore
 const vertex = extendArrayToMultipleOfFour([
