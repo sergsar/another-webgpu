@@ -21,10 +21,71 @@
  */
 
 /**
- * @typedef {'xyz'|'zyx'} RotationOrder
+ * @typedef {'xyz'|'xzy'|'yxz'|'yzx'|'zxy'|'zyx'} RotationOrder
  */
 
 class QuaternionUtils {
+	/**
+	 *
+	 * @param {Float32Array} q
+	 * @param {number} angleInRadians
+	 * @param {Float32Array} dst
+	 */
+	static rotateX(q, angleInRadians, dst = new Float32Array(4)) {
+		const halfAngle = angleInRadians * 0.5;
+		const qx = q[0];
+		const qy = q[1];
+		const qz = q[2];
+		const qw = q[3];
+		const bx = Math.sin(halfAngle);
+		const bw = Math.cos(halfAngle);
+		dst[0] = qx * bw + qw * bx;
+		dst[1] = qy * bw + qz * bx;
+		dst[2] = qz * bw - qy * bx;
+		dst[3] = qw * bw - qx * bx;
+		return dst;
+	}
+
+	/**
+	 * @param {Float32Array} q
+	 * @param {number} angleInRadians
+	 * @param {Float32Array} dst
+	 */
+	static rotateY(q, angleInRadians, dst = new Float32Array(4)) {
+		const halfAngle = angleInRadians * 0.5;
+		const qx = q[0];
+		const qy = q[1];
+		const qz = q[2];
+		const qw = q[3];
+		const by = Math.sin(halfAngle);
+		const bw = Math.cos(halfAngle);
+		dst[0] = qx * bw - qz * by;
+		dst[1] = qy * bw + qw * by;
+		dst[2] = qz * bw + qx * by;
+		dst[3] = qw * bw - qy * by;
+		return dst;
+	}
+
+	/**
+	 * @param {Float32Array} q
+	 * @param {number} angleInRadians
+	 * @param {Float32Array} dst
+	 */
+	static rotateZ(q, angleInRadians, dst = new Float32Array(4)) {
+		const halfAngle = angleInRadians * 0.5;
+		const qx = q[0];
+		const qy = q[1];
+		const qz = q[2];
+		const qw = q[3];
+		const bz = Math.sin(halfAngle);
+		const bw = Math.cos(halfAngle);
+		dst[0] = qx * bw + qy * bz;
+		dst[1] = qy * bw - qx * bz;
+		dst[2] = qz * bw + qw * bz;
+		dst[3] = qw * bw - qz * bz;
+		return dst;
+	}
+
 	/**
 	 * @param {number} xRadians
 	 * @param {number} yRadians
@@ -52,6 +113,30 @@ class QuaternionUtils {
 			case 'xyz':
 				dst[0] = sx * cy * cz + cx * sy * sz;
 				dst[1] = cx * sy * cz - sx * cy * sz;
+				dst[2] = cx * cy * sz + sx * sy * cz;
+				dst[3] = cx * cy * cz - sx * sy * sz;
+				break;
+			case 'xzy':
+				dst[0] = sx * cy * cz - cx * sy * sz;
+				dst[1] = cx * sy * cz - sx * cy * sz;
+				dst[2] = cx * cy * sz + sx * sy * cz;
+				dst[3] = cx * cy * cz + sx * sy * sz;
+				break;
+			case 'yxz':
+				dst[0] = sx * cy * cz + cx * sy * sz;
+				dst[1] = cx * sy * cz - sx * cy * sz;
+				dst[2] = cx * cy * sz - sx * sy * cz;
+				dst[3] = cx * cy * cz + sx * sy * sz;
+				break;
+			case 'yzx':
+				dst[0] = sx * cy * cz + cx * sy * sz;
+				dst[1] = cx * sy * cz + sx * cy * sz;
+				dst[2] = cx * cy * sz - sx * sy * cz;
+				dst[3] = cx * cy * cz - sx * sy * sz;
+				break;
+			case 'zxy':
+				dst[0] = sx * cy * cz - cx * sy * sz;
+				dst[1] = cx * sy * cz + sx * cy * sz;
 				dst[2] = cx * cy * sz + sx * sy * cz;
 				dst[3] = cx * cy * cz - sx * sy * sz;
 				break;

@@ -1,4 +1,4 @@
-import {extendArrayToMultipleOfFour} from './extendArrayToMultipleOfFour.js';
+import {ArrayUtils} from './ArrayUtils.js';
 
 /**
  * @param {Object} params
@@ -16,7 +16,7 @@ const composeVertexData = ({positions, normals}) => {
 			.reduce((acc, curr) => [...acc, ...curr], []);
 		result.push(...item);
 	}
-	return extendArrayToMultipleOfFour(result);
+	return ArrayUtils.extendArrayToMultipleOfFour(result);
 };
 
 export {composeVertexData};

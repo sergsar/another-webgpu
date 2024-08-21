@@ -1,5 +1,3 @@
-import {Matrix4Utils} from '../math/Matrix4Utils.js';
-import {degToRad} from '../utils/degToRad.js';
 import {basicShader} from './shaders/ShaderLib/basic.wgsl.js';
 import {ModelBinding} from '../core/ModelBinding.js';
 import {IndexedVertexBuffer} from '../core/IndexedVertexBuffer.js';
@@ -186,25 +184,10 @@ class WebGPURenderer {
 					commandEncoder.beginRenderPass(renderPassDescriptor);
 				passEncoder.setPipeline(pipeline);
 
-				const aspect = canvas.clientWidth / canvas.clientHeight;
-				const projection = Matrix4Utils.perspective(
-					degToRad(camera.fieldOfView),
-					aspect,
-					camera.zNear,
-					camera.zFar,
-				);
-				const eye = [camera.position.x, camera.position.y, camera.position.z];
-				const target = [camera.target.x, camera.target.y, camera.target.z];
-				const up = [0, 1, 0];
-
-				// Compute a view matrix
-				const viewMatrixData = Matrix4Utils.lookAt(eye, target, up);
-
-				// Combine the view and projection matrixes
-				const viewProjectionMatrixData = Matrix4Utils.multiply(
-					projection,
-					viewMatrixData,
-				);
+				camera.aspect = canvas.clientWidth / canvas.clientHeight;
+				camera.updateProjectionMatrix();
+				camera.updateMatrix();
+				camera.updateViewProjectionMatrix();
 
 				rendererBinding.setLightDirection(light.direction);
 
@@ -258,10 +241,12 @@ class WebGPURenderer {
 					if (mesh.needsUpdate) {
 						mesh.needsUpdate = false;
 						mesh.updateMatrix();
-						modelBinding.updateWorld(mesh.matrix);
+						modelBinding.updateWorld(mesh.matrix.elements);
 					}
 
-					modelBinding.updateViewProjection(viewProjectionMatrixData);
+					modelBinding.updateViewProjection(
+						camera.viewProjectionMatrix.elements,
+					);
 					modelBinding.writeBufferToQueue();
 
 					passEncoder.setBindGroup(2, modelBinding.getBindGroup());

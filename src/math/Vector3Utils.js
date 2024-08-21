@@ -34,6 +34,19 @@ class Vector3Utils {
 	}
 
 	/**
+	 * @param {Float32Array} a
+	 * @param {Float32Array} b
+	 * @param {Float32Array} [dst]
+	 */
+	static add(a, b, dst = new Float32Array(3)) {
+		dst[0] = a[0] + b[0];
+		dst[1] = a[1] + b[1];
+		dst[2] = a[2] + b[2];
+
+		return dst;
+	}
+
+	/**
 	 * @param {Float32Array} v
 	 * @param {Float32Array} [dst]
 	 */
@@ -53,6 +66,56 @@ class Vector3Utils {
 		return dst;
 	}
 
+	static length(v = new Float32Array(3)) {
+		const v0 = v[0];
+		const v1 = v[1];
+		const v2 = v[2];
+		return Math.sqrt(v0 * v0 + v1 * v1 + v2 * v2);
+	}
+
+	static setLength(v = new Float32Array(3), l = 1, dst = new Float32Array(3)) {
+		this.normalize(v, dst);
+		this.multiplyScalar(dst, l, dst);
+	}
+
+	static multiplyScalar(
+		v = new Float32Array(3),
+		k = 1,
+		dst = new Float32Array(3),
+	) {
+		dst[0] = v[0] * k;
+		dst[1] = v[1] * k;
+		dst[2] = v[2] * k;
+		return dst;
+	}
+
+	static applyQuaternion(
+		v = new Float32Array(3),
+		q = new Float32Array(4),
+		dst = new Float32Array(3),
+	) {
+		// quaternion q is assumed to have unit length
+
+		const vx = v[0];
+		const vy = v[1];
+		const vz = v[2];
+
+		const qx = q[0];
+		const qy = q[1];
+		const qz = q[2];
+		const qw = q[3];
+
+		const tx = 2 * (qy * vz - qz * vy);
+		const ty = 2 * (qz * vx - qx * vz);
+		const tz = 2 * (qx * vy - qy * vx);
+
+		dst[0] = vx + qw * tx + qy * tz - qz * ty;
+		dst[1] = vy + qw * ty + qz * tx - qx * tz;
+		dst[2] = vz + qw * tz + qx * ty - qy * tx;
+
+		return dst;
+	}
+
 	/**
 	 * @param {Float32Array} a
 	 * @param {Float32Array} b
@@ -67,4 +130,4 @@ class Vector3Utils {
 	}
 }
 
-export {Vector3Utils}
+export {Vector3Utils};

@@ -1,5 +1,5 @@
-import {extendArrayToMultipleOfFour} from '../utils/extendArrayToMultipleOfFour.js';
 import {Vector3Utils} from '../math/Vector3Utils.js';
+import {ArrayUtils} from '../utils/ArrayUtils.js';
 
 // prettier-ignore
 const firstFace = [[0, 1, 0], [-1, -1, 1], [1, -1, 1]]
@@ -12,7 +12,7 @@ const thirdFace = [[0, 1, 0], [1, -1, 1], [0, -1, -1]];
 const thirdNormal = Vector3Utils.computeNormal(...thirdFace);
 
 // prettier-ignore
-const vertex = extendArrayToMultipleOfFour([
+const vertex = ArrayUtils.extendArrayToMultipleOfFour([
 		...firstFace[0],						...firstNormal,
 		...firstFace[1],						...firstNormal,
 		...firstFace[2],						...firstNormal,
@@ -25,7 +25,7 @@ const vertex = extendArrayToMultipleOfFour([
 ])
 
 // prettier-ignore
-const index = extendArrayToMultipleOfFour([
+const index = ArrayUtils.extendArrayToMultipleOfFour([
 	0, 1, 2, 3, 4, 5, 6, 7, 8
 ])
 

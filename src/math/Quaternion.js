@@ -1,9 +1,9 @@
 import {QuaternionUtils} from './QuaternionUtils.js';
-import {degToRad} from '../utils/degToRad.js';
+import {UnitUtils} from '../utils/UnitUtils.js';
 
 class Quaternion {
 	/**
-	 * @param {number} args
+	 * @param {number[]} args
 	 * **/
 	constructor(...args) {
 		const [x = 0, y = 0, z = 0, w = 1] = args;
@@ -12,6 +12,22 @@ class Quaternion {
 				value: new Float32Array([x, y, z, w]),
 			},
 		});
+	}
+
+	set(x = 0, y = 0, z = 0, w = 1) {
+		this.elements.set([x, y, z, w]);
+	}
+
+	rotateX(radians = 0) {
+		QuaternionUtils.rotateX(this.elements, radians, this.elements);
+	}
+
+	rotateY(radians = 0) {
+		QuaternionUtils.rotateY(this.elements, radians, this.elements);
+	}
+
+	rotateZ(radians = 0) {
+		QuaternionUtils.rotateZ(this.elements, radians, this.elements);
 	}
 
 	/**
@@ -23,9 +39,9 @@ class Quaternion {
 	 */
 	setFromEuler(x = 0, y = 0, z = 0, order = 'xyz') {
 		QuaternionUtils.fromEuler(
-			degToRad(x),
-			degToRad(y),
-			degToRad(z),
+			UnitUtils.degToRad(x),
+			UnitUtils.degToRad(y),
+			UnitUtils.degToRad(z),
 			order,
 			this.elements,
 		);

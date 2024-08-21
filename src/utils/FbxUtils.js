@@ -1,9 +1,10 @@
 import {composeVertexData} from './composeVertexData.js';
-import {extendArrayToMultipleOfFour} from './extendArrayToMultipleOfFour.js';
 import {QuaternionUtils} from '../math/QuaternionUtils.js';
 import {Mesh} from '../objects/Mesh.js';
 import {Geometry} from '../core/Geometry.js';
 import {Quaternion} from '../math/Quaternion.js';
+import {ArrayUtils} from './ArrayUtils.js';
+import {UnitUtils} from './UnitUtils.js';
 
 class FbxUtils {
 	/**
@@ -92,7 +93,7 @@ class FbxUtils {
 		}
 
 		const populated = FbxUtils.populateVertexData(indices, positions, normals);
-		const triIndices = extendArrayToMultipleOfFour(
+		const triIndices = ArrayUtils.extendArrayToMultipleOfFour(
 			FbxUtils.convertPolyIndexToTriangles(populated.indices),
 		);
 
@@ -116,10 +117,10 @@ class FbxUtils {
 		const {translation, rotation, scaling} =
 			this.getTransformationFromFbxTree(tree);
 		const quaternion = QuaternionUtils.fromEuler(
-			rotation[0],
-			rotation[1],
-			rotation[2],
-			'zyx',
+			UnitUtils.degToRad(rotation[0]),
+			UnitUtils.degToRad(rotation[1]),
+			UnitUtils.degToRad(rotation[2]),
+			'zyx', // FBX default order is zyx
 		);
 		const mesh = new Mesh({geometry});
 		mesh.position.set(translation[0], translation[1], translation[2]);
