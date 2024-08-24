@@ -10,6 +10,10 @@ function header() {
  * @license
  * Copyright 2024 another-webgpu
  * SPDX-License-Identifier: MIT
+ *
+ *
+ * Partly inherits Three.js code - Copyright 2010-2024 Three.js Authors
+ *
  */\n`);
 
 			return {
