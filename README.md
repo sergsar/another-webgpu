@@ -4,7 +4,9 @@
  
 The project is at a very early stage.  
 
-The goal is currently being established.  
+The goal is currently being established. 
+
+[Codesandbox Playground](https://codesandbox.io/p/sandbox/another-webgpu-playground-cgp72l)
 
 Considering common sense, the codebase will probably reflect a lot of [Three.js](https://github.com/mrdoob/three.js) concepts.
 
