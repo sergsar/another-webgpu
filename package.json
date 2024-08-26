@@ -1,10 +1,11 @@
 {
   "name": "another-webgpu",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.7",
   "description": "Another JavaScript 3D library",
   "type": "module",
   "main": "./build/another-webgpu.cjs",
   "module": "./build/another-webgpu.module.js",
+  "types": "./build/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./build/another-webgpu.module.js",
