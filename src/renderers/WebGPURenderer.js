@@ -26,6 +26,9 @@ class WebGPURenderer {
 			/** @type {GPUTexture | null}} **/
 			let depthTexture = null;
 
+			/** @type {GPUBuffer | null} **/
+			let depthBuffer = null;
+
 			let {/** @type {GPUDevice | null} **/ device} =
 				await requestWebGPU(params);
 
@@ -118,7 +121,7 @@ class WebGPURenderer {
 				depthStencil: {
 					depthWriteEnabled: true,
 					depthCompare: 'less',
-					format: 'depth24plus',
+					format: 'depth32float',
 				},
 			});
 
@@ -167,13 +170,17 @@ class WebGPURenderer {
 					depthTexture.width !== canvasTexture.width ||
 					depthTexture.height !== canvasTexture.height
 				) {
-					if (depthTexture) {
-						depthTexture.destroy();
-					}
+					if (depthTexture) depthTexture.destroy();
+					if (depthBuffer) depthBuffer.destroy();
+
 					depthTexture = device.createTexture({
 						size: [canvasTexture.width, canvasTexture.height],
-						format: 'depth24plus',
-						usage: GPUTextureUsage.RENDER_ATTACHMENT,
+						format: 'depth32float',
+						usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC,
+					});
+					depthBuffer = device.createBuffer({
+						size: canvasTexture.width * canvasTexture.height * 4,
+						usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
 					});
 				}
 				renderPassDescriptor.depthStencilAttachment.view =
@@ -258,8 +265,31 @@ class WebGPURenderer {
 
 				passEncoder.end();
 
-				const commandBuffer = commandEncoder.finish();
-				device.queue.submit([commandBuffer]);
+				if (depthBuffer.mapState !== 'pending') {
+					commandEncoder.copyTextureToBuffer(
+						{texture: depthTexture},
+						{
+							buffer: depthBuffer,
+							offset: 0,
+							bytesPerRow: canvasTexture.width * 4,
+							rowsPerImage: canvasTexture.height,
+						},
+						[canvasTexture.width, canvasTexture.height, 1],
+					);
+				}
+
+				device.queue.submit([commandEncoder.finish()]);
+
+				if (depthBuffer.mapState !== 'pending') {
+					depthBuffer.mapAsync(GPUMapMode.READ).then(() => {
+						const arrayBuffer = depthBuffer.getMappedRange();
+						const depthBufferData = new Float32Array(
+							new Float32Array(arrayBuffer),
+						);
+						depthBuffer.unmap();
+						camera.depthBuffer = depthBufferData;
+					});
+				}
 			};
 
 			this.destroy = () => {
