@@ -50,8 +50,9 @@ class Vector3 {
 		Vector3Utils.setLength(this.elements, value, this.elements);
 	}
 
-	normalize() {
+	normalize(dst = this) {
 		Vector3Utils.normalize(this.elements, this.elements);
+		return this;
 	}
 
 	subtract(v = new Vector3(), dst = this) {
@@ -62,6 +63,15 @@ class Vector3 {
 	add(v = new Vector3(), dst = this) {
 		Vector3Utils.add(this.elements, v.elements, dst.elements);
 		return dst;
+	}
+
+	multiplyScalar(k = 1, dst = this) {
+		Vector3Utils.multiplyScalar(this.elements, k, dst.elements);
+		return dst;
+	}
+
+	dot(v = new Vector3()) {
+		return Vector3Utils.dot(this.elements, v.elements);
 	}
 
 	copy(v = new Vector3()) {

@@ -8,6 +8,16 @@ class Matrix4 {
 			},
 		});
 	}
+
+	copy(m = new Matrix4()) {
+		this.elements.set(m.elements);
+		return this;
+	}
+
+	inverse() {
+		Matrix4Utils.inverse(this.elements, this.elements);
+		return this;
+	}
 }
 
 export {Matrix4};

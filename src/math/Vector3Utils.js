@@ -23,6 +23,14 @@ class Vector3Utils {
 	/**
 	 * @param {Float32Array} a
 	 * @param {Float32Array} b
+	 */
+	static dot(a, b) {
+		return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+	}
+
+	/**
+	 * @param {Float32Array} a
+	 * @param {Float32Array} b
 	 * @param {Float32Array} [dst]
 	 */
 	static subtract(a, b, dst = new Float32Array(3)) {
