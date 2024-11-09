@@ -1,6 +1,6 @@
 {
   "name": "another-webgpu",
-  "version": "0.1.0-alpha.10",
+  "version": "0.1.0-alpha.12",
   "description": "Another JavaScript 3D library",
   "type": "module",
   "main": "./build/another-webgpu.cjs",
