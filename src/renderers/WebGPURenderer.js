@@ -157,6 +157,8 @@ class WebGPURenderer {
 					return;
 				}
 
+				const useDepthBuffer = camera.useDepth;
+
 				// Get the current texture from the canvas context and
 				// set it as the texture to render to.
 				const canvasTexture = context.getCurrentTexture();
@@ -265,7 +267,7 @@ class WebGPURenderer {
 
 				passEncoder.end();
 
-				if (depthBuffer.mapState !== 'pending') {
+				if (useDepthBuffer && depthBuffer.mapState !== 'pending') {
 					commandEncoder.copyTextureToBuffer(
 						{texture: depthTexture},
 						{
@@ -280,7 +282,7 @@ class WebGPURenderer {
 
 				device.queue.submit([commandEncoder.finish()]);
 
-				if (depthBuffer.mapState !== 'pending') {
+				if (useDepthBuffer && depthBuffer.mapState !== 'pending') {
 					depthBuffer.mapAsync(GPUMapMode.READ).then(() => {
 						const arrayBuffer = depthBuffer.getMappedRange();
 						const depthBufferData = new Float32Array(

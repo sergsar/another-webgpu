@@ -24,6 +24,7 @@ class Camera extends Object3D {
 		this.viewMatrix = new Matrix4();
 		this.viewProjectionMatrix = new Matrix4();
 		this.depthBuffer = new Float32Array();
+		this.useDepth = false;
 	}
 
 	updateMatrix() {
