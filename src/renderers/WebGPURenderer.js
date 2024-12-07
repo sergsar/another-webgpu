@@ -303,6 +303,11 @@ class WebGPURenderer {
 				device = null;
 			};
 
+			Object.defineProperties(this, {
+				render: {writable: false},
+				destroy: {writable: false},
+			});
+
 			return this;
 		};
 		return init();
