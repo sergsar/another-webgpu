@@ -18,6 +18,18 @@ class Matrix4 {
 		Matrix4Utils.inverse(this.elements, this.elements);
 		return this;
 	}
+
+	translate(x = 0, y = 0, z = 0) {
+		Matrix4Utils.translate(this.elements, [x, y, z], this.elements);
+		return this;
+	}
+
+	setPosition(x = 0, y = 0, z = 0) {
+		this.elements[12] = x;
+		this.elements[13] = y;
+		this.elements[14] = z;
+		return this;
+	}
 }
 
 export {Matrix4};

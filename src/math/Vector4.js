@@ -49,6 +49,7 @@ class Vector4 {
 		this.elements[1] = y;
 		this.elements[2] = z;
 		this.elements[3] = w;
+		return this;
 	}
 
 	get length() {

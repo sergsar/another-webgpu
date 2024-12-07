@@ -1,5 +1,6 @@
 import {Vector3Utils} from './Vector3Utils.js';
 import {Quaternion} from './Quaternion.js';
+import {Matrix4} from './Matrix4.js';
 
 class Vector3 {
 	constructor(x = 0, y = 0, z = 0) {
@@ -39,6 +40,7 @@ class Vector3 {
 		this.elements[0] = x;
 		this.elements[1] = y;
 		this.elements[2] = z;
+		return this;
 	}
 
 	get length() {
@@ -50,7 +52,7 @@ class Vector3 {
 		Vector3Utils.setLength(this.elements, value, this.elements);
 	}
 
-	normalize(dst = this) {
+	normalize() {
 		Vector3Utils.normalize(this.elements, this.elements);
 		return this;
 	}
@@ -78,6 +80,11 @@ class Vector3 {
 		this.x = v.x;
 		this.y = v.y;
 		this.z = v.z;
+		return this;
+	}
+
+	applyMatrix4(m = new Matrix4()) {
+		Vector3Utils.applyMatrix4(this.elements, m.elements, this.elements);
 		return this;
 	}
 

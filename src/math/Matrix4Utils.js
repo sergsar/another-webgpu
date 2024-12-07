@@ -550,11 +550,23 @@ class Matrix4Utils {
 
 	/**
 	 * @param {Float32Array} m
-	 * @param {Float32Array} translation
 	 * @param {Float32Array} [dst]
 	 */
-	static translate(m, translation, dst = m) {
-		return Matrix4Utils.multiply(m, Matrix4Utils.translation(translation), dst);
+	static copy(m, dst = new Float32Array(16)) {
+		dst.set(m);
+
+		return dst;
+	}
+
+	/**
+	 * @param {Float32Array} m
+	 * @param {number} tx
+	 * @param {number} ty
+	 * @param {number} tz
+	 * @param {Float32Array} [dst]
+	 */
+	static translate(m, [tx, ty, tz], dst = m) {
+		return Matrix4Utils.multiply(m, Matrix4Utils.translation([tx, ty, tz]), dst);
 	}
 
 	/**

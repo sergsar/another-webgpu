@@ -32,8 +32,27 @@ class Vector2 {
 		this.y = y;
 	}
 
+	get length() {
+		return Vector2Utils.length(this.elements);
+	}
+
+	/** @param {number} value **/
+	set length(value) {
+		Vector2Utils.setLength(this.elements, value, this.elements);
+	}
+
+	normalize() {
+		Vector2Utils.normalize(this.elements, this.elements);
+		return this;
+	}
+
 	add(v = new Vector2(), dst = this) {
 		Vector2Utils.add(this.elements, v.elements, dst.elements);
+		return dst;
+	}
+
+	multiplyScalar(k = 1, dst = this) {
+		Vector2Utils.multiplyScalar(this.elements, k, dst.elements);
 		return dst;
 	}
 
@@ -42,10 +61,15 @@ class Vector2 {
 		return dst;
 	}
 
-	/**
-	 * @param {Vector2} src
-	 **/
-	copy(src) {
+	dot(v = new Vector2()) {
+		return Vector2Utils.dot(this.elements, v.elements);
+	}
+
+	sign() {
+		return Vector2Utils.sign(this.elements);
+	}
+
+	copy(src = new Vector2()) {
 		this.x = src.x;
 		this.y = src.y;
 		return this;
