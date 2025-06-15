@@ -1,3 +1,6 @@
+import {Vector3Utils} from './Vector3Utils.js';
+import {Vector4Utils} from './Vector4Utils.js';
+
 /*
  * Copyright 2022 Gregg Tavares
  *
@@ -26,7 +29,27 @@
 
 class QuaternionUtils {
 	/**
-	 *
+	 * @param {Float32Array} a
+	 * @param {Float32Array} b
+	 * @param {Float32Array} dst
+	 */
+	static multiply(a, b, dst = new Float32Array(4)) {
+		const ax = a[0];
+		const ay = a[1];
+		const az = a[2];
+		const aw = a[3];
+		const bx = b[0];
+		const by = b[1];
+		const bz = b[2];
+		const bw = b[3];
+		dst[0] = ax * bw + aw * bx + ay * bz - az * by;
+		dst[1] = ay * bw + aw * by + az * bx - ax * bz;
+		dst[2] = az * bw + aw * bz + ax * by - ay * bx;
+		dst[3] = aw * bw - ax * bx - ay * by - az * bz;
+		return dst;
+	}
+
+	/**
 	 * @param {Float32Array} q
 	 * @param {number} angleInRadians
 	 * @param {Float32Array} dst
@@ -149,6 +172,74 @@ class QuaternionUtils {
 			default:
 				throw new Error(`Unknown rotation order: ${order}`);
 		}
+		return dst;
+	}
+
+	/**
+	 * @param {Float32Array} from
+	 * @param {Float32Array} to
+	 * @param {Float32Array} dst
+	 */
+	static fromUnitVectors(from, to, dst = new Float32Array(4)) {
+		// assumes direction vectors vFrom and vTo are normalized
+
+		let r = Vector3Utils.dot(from, to) + 1;
+
+		if (r < Number.EPSILON) {
+			// vFrom and vTo point in opposite directions
+
+			r = 0;
+
+			if (Math.abs(from[0]) > Math.abs(from[2])) {
+				dst[0] = -from[1];
+				dst[1] = from[0];
+				dst[2] = 0;
+				dst[3] = r;
+			} else {
+				dst[0] = 0;
+				dst[1] = -from[2];
+				dst[2] = from[1];
+				dst[4] = r;
+			}
+		} else {
+			dst[0] = from[1] * to[2] - from[2] * to[1];
+			dst[1] = from[2] * to[0] - from[0] * to[2];
+			dst[2] = from[0] * to[1] - from[1] * to[0];
+			dst[3] = r;
+		}
+
+		return Vector4Utils.normalize(dst, dst);
+	}
+
+	/**
+	 * @param {Float32Array} q
+	 * @param {Float32Array} dst
+	 */
+	static inverse(q, dst = new Float32Array(4)) {
+		const a0 = q[0];
+		const a1 = q[1];
+		const a2 = q[2];
+		const a3 = q[3];
+		const dot = a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3;
+		const invDot = dot ? 1 / dot : 0;
+		dst[0] = -a0 * invDot;
+		dst[1] = -a1 * invDot;
+		dst[2] = -a2 * invDot;
+		dst[3] = a3 * invDot;
+
+		return dst;
+	}
+
+	/**
+	 * @param {Float32Array} q
+	 * @param {Float32Array} dst
+	 */
+	static conjugate(q, dst) {
+		dst[0] = -q[0];
+		dst[1] = -q[1];
+		dst[2] = -q[2];
+		dst[3] = q[3];
+
 		return dst;
 	}
 }

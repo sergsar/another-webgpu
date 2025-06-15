@@ -63,6 +63,7 @@ class Vector4 {
 
 	normalize() {
 		Vector4Utils.normalize(this.elements, this.elements);
+		return this;
 	}
 
 	copy(v = new Vector4()) {

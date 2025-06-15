@@ -18,16 +18,44 @@ class Quaternion {
 		this.elements.set([x, y, z, w]);
 	}
 
+	multiply(q = new Quaternion()) {
+		QuaternionUtils.multiply(this.elements, q.elements, this.elements);
+		return this;
+	}
+
+	premultiply(q = new Quaternion()) {
+		QuaternionUtils.multiply(q.elements, this.elements, this.elements);
+		return this;
+	}
+
+	inverse() {
+		QuaternionUtils.inverse(this.elements, this.elements);
+		return this;
+	}
+
+	conjugate() {
+		QuaternionUtils.conjugate(this.elements, this.elements);
+		return this;
+	}
+
+	copy({elements: [x, y, z, w]} = new Quaternion()) {
+		this.elements.set([x, y, z, w]);
+		return this;
+	}
+
 	rotateX(radians = 0) {
 		QuaternionUtils.rotateX(this.elements, radians, this.elements);
+		return this;
 	}
 
 	rotateY(radians = 0) {
 		QuaternionUtils.rotateY(this.elements, radians, this.elements);
+		return this;
 	}
 
 	rotateZ(radians = 0) {
 		QuaternionUtils.rotateZ(this.elements, radians, this.elements);
+		return this;
 	}
 
 	/**
@@ -45,6 +73,17 @@ class Quaternion {
 			order,
 			this.elements,
 		);
+		return this;
+	}
+
+	/**
+	 *
+	 * @param {Vector3} from
+	 * @param {Vector3} to
+	 */
+	setFromUnitVectors(from, to) {
+		QuaternionUtils.fromUnitVectors(from.elements, to.elements, this.elements);
+		return this;
 	}
 }
 

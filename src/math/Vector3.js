@@ -76,6 +76,11 @@ class Vector3 {
 		return Vector3Utils.dot(this.elements, v.elements);
 	}
 
+	cross(v = new Vector3()) {
+		Vector3Utils.cross(this.elements, v.elements, this.elements);
+		return this;
+	}
+
 	copy(v = new Vector3()) {
 		this.x = v.x;
 		this.y = v.y;
