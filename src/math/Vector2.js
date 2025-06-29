@@ -30,6 +30,8 @@ class Vector2 {
 	set(x = 0, y = 0) {
 		this.x = x;
 		this.y = y;
+
+		return this;
 	}
 
 	get length() {

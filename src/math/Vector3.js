@@ -43,6 +43,21 @@ class Vector3 {
 		return this;
 	}
 
+	setX(value) {
+		this.elements[0] = value;
+		return this;
+	}
+
+	setY(value) {
+		this.elements[1] = value;
+		return this;
+	}
+
+	setZ(value) {
+		this.elements[2] = value;
+		return this;
+	}
+
 	get length() {
 		return Vector3Utils.length(this.elements);
 	}
@@ -74,6 +89,11 @@ class Vector3 {
 
 	dot(v = new Vector3()) {
 		return Vector3Utils.dot(this.elements, v.elements);
+	}
+
+	cross(v = new Vector3()) {
+		Vector3Utils.cross(this.elements, v.elements, this.elements);
+		return this;
 	}
 
 	copy(v = new Vector3()) {

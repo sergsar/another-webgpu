@@ -8,7 +8,7 @@ class Vector2Balancer {
 	 */
 	constructor(args = {}) {
 		let condition = args.condition || (() => true);
-		let inversion = args.inversion;
+		let inversion = args.inversion || (() => false);
 
 		let passed = true;
 
