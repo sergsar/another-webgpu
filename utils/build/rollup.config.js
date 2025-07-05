@@ -1,5 +1,14 @@
 import terser from '@rollup/plugin-terser';
 import MagicString from 'magic-string';
+import {existsSync, rmSync} from 'fs';
+
+const outputDir = 'build';
+
+if (existsSync(outputDir)) {
+	rmSync(outputDir, {recursive: true, force: true});
+}
+
+const year = new Date().getFullYear();
 
 function header() {
 	return {
@@ -8,11 +17,11 @@ function header() {
 
 			code.prepend(`/**
  * @license
- * Copyright 2024 another-webgpu
+ * Copyright ${year} another-webgpu
  * SPDX-License-Identifier: MIT
  *
  *
- * Partly inherits Three.js code - Copyright 2010-2024 Three.js Authors
+ * Partly inherits Three.js code - Copyright 2010-${year} Three.js Authors
  *
  */\n`);
 
@@ -31,7 +40,7 @@ const builds = [
 		output: [
 			{
 				format: 'esm',
-				file: 'build/another-webgpu.module.js',
+				file: `${outputDir}/another-webgpu.module.js`,
 			},
 		],
 	},
@@ -41,7 +50,7 @@ const builds = [
 		output: [
 			{
 				format: 'esm',
-				file: 'build/another-webgpu.module.min.js',
+				file: `${outputDir}/another-webgpu.module.min.js`,
 			},
 		],
 	},
@@ -52,7 +61,7 @@ const builds = [
 			{
 				format: 'cjs',
 				name: 'another-webgpu',
-				file: 'build/another-webgpu.cjs',
+				file: `${outputDir}/another-webgpu.cjs`,
 				indent: '\t',
 			},
 		],
