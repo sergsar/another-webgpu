@@ -17,4 +17,5 @@ export {UnitUtils} from './utils/UnitUtils.js';
 export {Matrix4} from './math/Matrix4.js';
 export {BalancedValue} from './math/BalancedValue.js';
 export {ValueBalancer} from './math/ValueBalancer.js';
+export {RangeLimiter} from './math/RangeLimiter.js';
 export {Vector2Balancer} from './math/Vector2Balancer.js';
